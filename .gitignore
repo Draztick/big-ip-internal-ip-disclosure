@@ -6,5 +6,5 @@ Include/
 Include/*
 .vscode/
 .vscode/*
-*.txt
+cookieformat.txt
 *.cfg
