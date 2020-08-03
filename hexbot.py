@@ -1,6 +1,11 @@
 #! python3
 
 import sys
+import requests
+import urllib3
+import re
+
+urllib3.disable_warnings()
 
 class Big5Cookie:
     
@@ -44,23 +49,38 @@ class Big5Cookie:
 
         return add_port
 
+def get_cookie(url):
+    try:
+        req = requests.get(url, verify=False)
+        cookie = req.cookies.get_dict()
+        for i in cookie:
+            if re.search(r"\d{7,}\.\d{4,}\.0000", cookie.get(i)):
+                return cookie.get(i)
+            else:
+                continue
+        return None
+    except:
+        return None
+
+
 if __name__=='__main__':
 
-    inp = sys.argv[1]
-    print('\n\nDisclosed IPs:\n')
-    if ',' in sys.argv[1]:
-        inp = inp.split(',')
-        for i in inp:
-            code = Big5Cookie()
-            cip, cport = code.split_cookie(i)
-            big_ip = code.decode_ip(cip)
-            big_port = code.decode_port(cport)
+    inp = sys.argv
+    inp.pop(0)
 
-            print(f'{big_ip}:{big_port}')
-    else:
+    cookies = []
+    
+    for i in inp:
+        f5_cookie = get_cookie(i)
+        if f5_cookie != None:
+            cookies.append({'url': i, 'cookie': f5_cookie})
+
+    
+    print('\nDisclosed IPs:')
+    for j in cookies:
         code = Big5Cookie()
-        cip, cport = code.split_cookie(i)
+        cip, cport = code.split_cookie(j['cookie'])
         big_ip = code.decode_ip(cip)
         big_port = code.decode_port(cport)
 
-        print(f'{big_ip}:{big_port}')
+        print(f'[{j["url"]}] = IP:{big_ip}, Port:{big_port}')

@@ -1,3 +1,10 @@
+Scripts/
+Scripts/*
+Lib/
+Lib/*
+Include/
+Include/*
 .vscode/
 .vscode/*
 *.txt
+*.cfg
