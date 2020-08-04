@@ -4,6 +4,7 @@ import sys
 import requests
 import urllib3
 import re
+from time import sleep
 
 urllib3.disable_warnings()
 
@@ -76,11 +77,12 @@ if __name__=='__main__':
             cookies.append({'url': i, 'cookie': f5_cookie})
 
     
-    print('\nDisclosed IPs:')
+    print('\n----Results----\n')
+    sleep(2)
     for j in cookies:
         code = Big5Cookie()
         cip, cport = code.split_cookie(j['cookie'])
         big_ip = code.decode_ip(cip)
         big_port = code.decode_port(cport)
 
-        print(f'[{j["url"]}] = IP: {big_ip}, Port: {big_port}')
+        print(f'+ [{j["url"]}]\n\t-- IP: {big_ip}\n\t-- Port: {big_port}')
