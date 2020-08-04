@@ -83,4 +83,4 @@ if __name__=='__main__':
         big_ip = code.decode_ip(cip)
         big_port = code.decode_port(cport)
 
-        print(f'[{j["url"]}] = IP:{big_ip}, Port:{big_port}')
+        print(f'[{j["url"]}] = IP: {big_ip}, Port: {big_port}')
